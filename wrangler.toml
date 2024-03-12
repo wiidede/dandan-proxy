@@ -1,0 +1,4 @@
+name = "dandan-proxy"
+main = "src/worker.js"
+compatibility_date = "2024-03-12"
+workers_dev = true
