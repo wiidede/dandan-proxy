@@ -6,6 +6,13 @@ export default {
 			"Access-Control-Max-Age": "86400",
 		};
 
+		const acceptedOrigins = [
+			"http://localhost:*",
+			"https://dandan.wiidede.space",
+			"https://dandanplay.pages.dev/",
+			"https://dandanplay-vitesse.netlify.app",
+		]
+
 		// The origin for the remote third party API you want to fetch from
 		// but does not implement CORS
 		const API_ORIGIN = "https://api.dandanplay.net";
@@ -47,7 +54,7 @@ export default {
 			response = new Response(response.body, response);
 			// Set CORS headers
 
-			response.headers.set("Access-Control-Allow-Origin", url.origin);
+			response.headers.set("Access-Control-Allow-Origin", acceptedOrigins.join(","));
 
 			// Append to/Add Vary header so browser will cache response correctly
 			response.headers.append("Vary", "Origin");
