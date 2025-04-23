@@ -1,5 +1,5 @@
 export default {
-	async fetch(request) {
+	async fetch(request, env) {
 		const corsHeaders = {
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
@@ -31,7 +31,7 @@ export default {
       </html>
     `;
 
-		async function handleRequest(request) {
+		async function handleRequest(request, env) {
 			const url = new URL(request.url);
 
 			const apiUrl = API_ORIGIN + url.pathname + url.search;
@@ -41,6 +41,9 @@ export default {
 			// that this request is not cross-site.
 			request = new Request(apiUrl, request);
 			request.headers.set("Origin", new URL(apiUrl).origin);
+			// Add AppId and AppSecret headers from environment variables
+			request.headers.set("X-AppId", env.APP_ID);
+			request.headers.set("X-AppSecret", env.APP_SECRET);
 			let response = await fetch(request);
 			// Recreate the response so you can modify the headers
 
@@ -91,7 +94,7 @@ export default {
 				request.method === "POST"
 			) {
 				// Handle requests to the API server
-				return handleRequest(request);
+				return handleRequest(request, env);
 			} else {
 				return new Response(null, {
 					status: 405,
